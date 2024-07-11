@@ -12,8 +12,6 @@ if vim.g.neovide then
   vim.o.guifont = 'JetBrainsMono NF'
 
   vim.g.neovide_theme = 'auto'
-
-  vim.api.nvim_set_current_dir(vim.fn.expand '~/')
 end
 
 -- [[ Setting options ]]
@@ -292,12 +290,16 @@ require('lazy').setup({
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+          file_browser = {
+            hidden = { file_browser = true, folder_browser = true },
+          },
         },
       }
 
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'file_browser')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -334,6 +336,11 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Setup keymap for file_browser
+      -- vim.keymap.set('n', '\\', function()
+      --   require('telescope').extensions.file_browser.file_browser()
+      -- end)
     end,
   },
 
